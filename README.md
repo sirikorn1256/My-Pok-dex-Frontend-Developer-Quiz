@@ -51,10 +51,10 @@ npm start เปิดเว็บที่: http://localhost:4200
 ---
 
 สูตรคำนวณตามโจทย์
-•	HP = จำกัดค่า 0–100
-•	STR = จำนวน attacks × 50 (max 100)
-•	WEAK = จำนวน weaknesses × 100 (max 100)
-•	Happiness = ((HP / 10) + (Damage / 10) + 10 - จำนวน weaknesses) / 5
+- HP = จำกัดค่า 0–100
+- STR = จำนวน attacks × 50 (max 100)
+- WEAK = จำนวน weaknesses × 100 (max 100)
+- Happiness = ((HP / 10) + (Damage / 10) + 10 - จำนวน weaknesses) / 5
 
 ---
 
