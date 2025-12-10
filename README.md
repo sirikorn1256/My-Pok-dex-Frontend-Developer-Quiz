@@ -1,75 +1,90 @@
-# Botnoi Pokédex (My Pokémon cards list)
+# My Pokédex – Frontend Developer Quiz
 
-We want you to build a web application with the following requirements:
+โปรเจ็กต์นี้เป็นแบบทดสอบตำแหน่ง Frontend Developer (Botnoi Group)  
+โดยเป็นเว็บสำหรับค้นหาและเพิ่มการ์ดโปเกมอนลงใน Pokédex ส่วนตัว
 
-| User Story | Acceptance Criteria |
-|:---|:---|
-|As a user, I want to see my Pokédex, so that I can build a list of Pokémon cards that I like.|- I can see the list of my Pokémon cards.<br>- I can add a Pokémon card to my Pokédex from search result list.<br>- I can remove a Pokémon card from my Pokédex.|
-|As a user, I want to be able to search for a Pokémon card, so that I can add it into my Pokédex.|- I can search based on Pokémon name.<br>- I can search based on Pokémon type.|
-|As a user, I want to see only unselected Pokémon cards on the search list, so that I can select a different Pokémon card.|- I can see only unselect Pokémon cards on the result list.|
-|As a user, I want to cancel adding a Pokémon to my Pokédex, so that I can close the Pokémon list modal.|- I can close the Pokémon list modal by clicking outside.|
-|As a user, I want to see the details of each Pokémon, so that I can see the abilities of a Pokémon.|- I can see HP level of a Pokémon.<br>- I can see Strength level of a Pokémon.<br>- I can see Weakness level of a Pokémon.<br>- I can see Happiness level of a Pokémon.|
+---
 
-## Limitation
-- Support only on iPad (1024x768) screen size, no RESPONSIVE!!
+## ผลลัพธ์ที่จะได้
+<img width="1467" height="913" alt="1" src="https://github.com/user-attachments/assets/6261d7bd-44fb-4b70-9081-c72fc748c7f6" />
+<img width="1462" height="919" alt="2" src="https://github.com/user-attachments/assets/36f87c9c-76ec-4928-92b6-062449896992" />
+<img width="1464" height="934" alt="3" src="https://github.com/user-attachments/assets/2c961e6b-5013-411a-bce5-d12a7d40751c" />
+<img width="1456" height="941" alt="4" src="https://github.com/user-attachments/assets/bc6c3d50-061b-4981-a0bd-0810a600a170" />
+<img width="1460" height="933" alt="5" src="https://github.com/user-attachments/assets/8946320f-a970-4b07-963e-ac52c2bfb8b4" />
 
-## Also, we already prepared some stuff for you
 
-### 1. Base project (includes iPad layout screen)
 
-### 2. Service API
-  - You can run service api by `yarn run api`
-  - The endpoint to get Pokémon list is `[GET]http://localhost:3030/api/cards`
-  - query
-    - limit: default 20 item/
-    - name: search monster by name
-    - type: search monster by type
-    - example: http://localhost:3030/api/cards?limit=30&name=deoxys%20ex&type=psychic
+---
 
-### 3. How to calculate `HP level`, `Strength level`, `Weakness level` and `Happiness level`.
+## Tech Stack
 
-  - HP level calculation
-      - maximum is 100. if value is higher than 100 set it to 100, otherwise 0.
-  - Strength level calculation
-      - use `attacks` length to multiply by 50, maximum is 100. e.g. if value is 1 set it to 50, 2 set it to 100, otherwise 0.
-  - Weakness level calculation
-      - use `weaknesses` length multiply by 100, maximum is 100. e.g. if value is 1 set it to 100, otherwise 0.
-  - Damage calculation
-      - use `damage` value without symbol of all attacks skill. e.g. 50+ set it to 50, 20* set it to 20, otherwise 0.
-  - Happiness level calculation
-      - ((HP / 10) + (Damage /10 ) + 10 - (Weakness)) / 5
-      
-  #### Example
-    Pikachu {
-      name: 'Deoxys ex',
-      hp: '110',
-      attacks: [
-        { name: 'attack A', damage: '50+'},
-        { name: 'attack B', damage: '40x'}
-      ],
-      weaknesses: [
-        { name: 'weakness A'},
-      ]
-    }
-  
-    Output {
-      hp: 100,
-      strength: '100%',
-      weakness: '100%',
-      damage: 90,
-      happiness: 5
-    }
-### 4. Interactive MockUp (as a .gif file)
+- Angular 15+
+- TypeScript
+- SCSS
+- Node.js (Express) สำหรับ mock API
+- JSON mock data
 
-![Pokédex MockUp](screenshot/exam-crop.gif)
+---
 
-### 5. Fonts (from Google Fonts)
-  - `Atma:500:700`
-  - `Gaegu`
+## วิธีติดตั้งและรันโปรเจ็กต์
 
-### 6. Color codes
+1) ติดตั้ง dependencies
+bash
+npm install
 
-![Pokédex MockUp](screenshot/color-codes.png)
+2) รัน Backend (port 3030)
+node src/server/server.js
+API ที่ใช้: http://localhost:3030/api/cards
 
-If you have any questions, please do not hesitate to ask us anytime.
-Wish you luck!! :)
+3) รัน Frontend (Angular)
+npm start เปิดเว็บที่: http://localhost:4200
+
+---
+
+ฟีเจอร์ของระบบ
+1.ค้นหา Pokémon ผ่าน Modal
+2.เพิ่มการ์ดลง Pokédex (ไม่ซ้ำกัน)
+3.แสดงค่าสถานะ HP / STR / WEAK พร้อมแถบ bar
+4.คำนวณ Happiness ตามสูตรของโจทย์
+5.UI จำลองหน้าตา iPad พร้อมแถบด้านล่าง
+
+---
+
+สูตรคำนวณตามโจทย์
+•	HP = จำกัดค่า 0–100
+•	STR = จำนวน attacks × 50 (max 100)
+•	WEAK = จำนวน weaknesses × 100 (max 100)
+•	Happiness = ((HP / 10) + (Damage / 10) + 10 - จำนวน weaknesses) / 5
+
+---
+
+สิ่งที่ได้เรียนรู้
+•	การจัดการ state และ data flow ใน Angular
+•	การใช้งาน HttpClient เรียก REST API
+•	การจัดแยก frontend และ backend mock
+•	การคำนวณค่าต่าง ๆ ตาม business logic
+•	การจัด UI ให้ตรงตามโจทย์และ responsive
+
+---
+ปัญหาที่พบระหว่างทำโปรเจกต์ และแนวทางแก้ไข
+
+1) Backend mock API รันไม่ขึ้น เพราะหาไฟล์ JSON ไม่เจอ
+ตัว server.js ต้องการอ่านไฟล์ mock/cards.json แต่ตำแหน่งไฟล์ไม่ตรงกับ path ที่เขียนไว้ ทำให้ Node มองไม่เห็นไฟล์และรันต่อไม่ได้ วิธีแก้คือปรับตำแหน่งไฟล์ให้ถูกต้อง หรือแก้ path ใน server.js ให้ตรงกับตำแหน่งจริง หลังแก้แล้ว API สามารถเรียกได้ปกติบนพอร์ต 3030
+
+2) Angular รันไม่ได้เพราะเวอร์ชัน Node ไม่ตรง
+เริ่มแรกเจอปัญหาใช้คำสั่ง ng serve ไม่ได้ เนื่องจากเวอร์ชัน Node.js ใหม่เกินไปจน Angular 15 ไม่รองรับ วิธีแก้คือลดเวอร์ชัน Node ลงมาเป็น 18.x จากนั้น Angular CLI ก็สามารถทำงานได้ปกติ
+
+3) คำสั่ง ng ใช้งานไม่ได้
+เกิดจากเครื่องยังไม่ได้ติดตั้ง Angular CLI แบบ global จึงต้องสั่งติดตั้งด้วย npm install -g @angular/cli
+หลังติดตั้งแล้วคำสั่ง ng สามารถใช้ได้ตามปกติ
+
+4) การค้นหา Pokémon ไม่ทำงาน เพราะข้อมูลบางใบมีรูปแบบไม่ตรงกัน
+ข้อมูลการ์ดบางใบมี attack ที่เป็น “50+” หรือ “20×” ทำให้การคำนวณค่า stat และการค้นหาผิดพลาด วิธีแก้คือจัดการ clean ข้อมูลก่อน เช่นดึงเฉพาะตัวเลขออกมาใช้คำนวณ เพื่อให้ระบบแสดงผลได้สม่ำเสมอ
+
+5) ปัญหาการกดปุ่มใน UI ไม่ตอบสนอง
+บางปุ่มไม่ทำงานเพราะ event ถูก block โดยโครงสร้าง HTML และ directive ซ้อนกัน วิธีแก้คือปรับ DOM และตรวจสอบ method ให้ตรงกับที่เรียกใน template หลังแก้แล้วการกดปุ่มค้นหาและเลือกการ์ดทำงานได้ตามปกติ
+
+โดยรวมแล้วปัญหาที่เจอส่วนใหญ่เกี่ยวกับ path ของไฟล์ โครงสร้างข้อมูล และเวอร์ชันเครื่อง ซึ่งเมื่อตรวจสอบลำดับการทำงานและแก้ให้ตรงจุดทั้งหมด ระบบก็สามารถทำงานได้สมบูรณ์ทั้งฝั่ง Backend และ Frontend
+
+---
+
