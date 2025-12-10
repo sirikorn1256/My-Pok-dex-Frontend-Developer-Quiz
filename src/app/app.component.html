@@ -1,0 +1,150 @@
+<!-- src/app/app.component.html -->
+<div class="app-shell">
+    <div class="ipad-frame">
+        <!-- ปุ่มข้างเครื่อง -->
+        <div class="ipad-side-button"></div>
+
+        <!-- โลโก้บอทน้อยซ้ายจอ -->
+        <div class="botnoi-badge">
+            <img src="assets/botnoi.svg" alt="Botnoi" />
+        </div>
+
+        <!-- หน้าจอ -->
+        <div class="ipad-screen">
+            <header class="pokedex-header">
+                <h1>My Pokédex</h1>
+            </header>
+
+            <main class="pokedex-main">
+                <!-- ลิสต์ Pokédex ของเรา -->
+                <div class="card-grid" *ngIf="pokedex.length; else emptyState">
+                    <div class="poke-card" *ngFor="let card of pokedex" [style.background]="getCardColor(card)">
+                        <div class="poke-card-inner">
+                            <div class="poke-card-image">
+                                <img [src]="card.imageUrl" [alt]="card.name" />
+                            </div>
+
+                            <div class="poke-card-info">
+                                <h2>{{ card.name }}</h2>
+
+                                <p class="hp">HP: {{ getHpLevel(card) }}</p>
+
+                                <p class="types" *ngIf="card.types as types">
+                                    Type: {{ types.join(', ') }}
+                                </p>
+
+                                <div class="stat-row">
+                                    <span>Strength: {{ getStrengthLevel(card) }}</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span>Weakness: {{ getWeaknessLevel(card) }}</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span>Happiness: {{ getHappiness(card) }}</span>
+                                </div>
+
+                                <div class="modal-happiness-row">
+                                    <ng-container *ngFor="let face of getHappinessArray(card)">
+                                        <img src="assets/cute.png" alt="cute" class="happy-face" />
+                                    </ng-container>
+                                </div>
+
+                                <button class="btn-remove" (click)="removeFromPokedex(card)">
+                                    X
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ถ้ายังไม่มีการ์ด -->
+                <ng-template #emptyState>
+                    <div class="empty-hint">
+                        
+                        กดปุ่ม + ด้านล่างเพื่อเพิ่มการ์ด
+                    </div>
+                </ng-template>
+            </main>
+
+            <!-- แถบล่าง + ปุ่ม + (อยู่ "ในจอ") -->
+            <div class="bottom-dock">
+                <button class="fab-add" (click)="openModal()">+</button>
+            </div>
+
+            <!-- Modal เลือก Pokémon (ทับทั้งหน้าจอด้านใน) -->
+            <div class="modal-backdrop" *ngIf="isModalOpen" (click)="closeModal()">
+                <div class="modal-content" (click)="$event.stopPropagation()">
+                    <!-- แถวบน: ช่องค้นหาอย่างเดียว -->
+                    <div class="modal-search-bar">
+                        <input type="text" placeholder="Search by name..." [(ngModel)]="searchName"
+                            (keyup.enter)="searchCards()" />
+                        <button class="search-icon-btn" (click)="searchCards()">
+                            <img src="assets/search.png" alt="Search" />
+                        </button>
+                    </div>
+
+                    <p class="error-text" *ngIf="error">{{ error }}</p>
+                    <p class="loading-text" *ngIf="searchLoading && !error">
+                        กำลังค้นหาโปเกม่อน...
+                    </p>
+
+                    <!-- รายการการ์ดที่ค้นหาได้ -->
+                    <div class="modal-card-list" *ngIf="!searchLoading">
+                        <p *ngIf="!searchResults.length && !error">
+                            ยังไม่มีผลลัพธ์นะ ลองพิมพ์ชื่อโปเกม่อนดูจ้า 💫
+                        </p>
+
+                        <div class="modal-card" *ngFor="let card of searchResults">
+                            <!-- ปุ่ม Add มุมขวา โผล่ตอน hover -->
+                            <button class="modal-card-add" (click)="addToPokedex(card)">
+                                Add
+                            </button>
+
+                            <div class="modal-card-img">
+                                <img [src]="card.imageUrl" [alt]="card.name" />
+                            </div>
+
+                            <div class="modal-card-info">
+                                <h3>{{ card.name }}</h3>
+                                <p *ngIf="card.types as types">Type: {{ types.join(', ') }}</p>
+
+                                <!-- HP bar -->
+                                <div class="modal-stat-row">
+                                    <span class="stat-label">HP</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-bar-fill" [style.width.%]="getHpBar(card)"></div>
+                                    </div>
+                                </div>
+
+                                <!-- STR bar -->
+                                <div class="modal-stat-row">
+                                    <span class="stat-label">STR</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-bar-fill" [style.width.%]="getStrengthBar(card)"></div>
+                                    </div>
+                                </div>
+
+                                <!-- WEAK bar -->
+                                <div class="modal-stat-row">
+                                    <span class="stat-label">WEAK</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-bar-fill" [style.width.%]="getWeaknessBar(card)"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Happiness emojis -->
+                                <div class="modal-happiness-row">
+                                    <ng-container *ngFor="let face of getHappinessArray(card)">
+                                        <img src="assets/cute.png" alt="cute" class="happy-face" />
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /modal -->
+        </div>
+        <!-- /ipad-screen -->
+    </div>
+</div>

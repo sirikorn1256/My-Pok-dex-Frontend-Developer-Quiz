@@ -1,0 +1,445 @@
+/* src/app/app.component.scss */
+
+/* ===========================
+   Color variables & Global
+   =========================== */
+:root {
+    --bottom-bar-bg: #5656ec;
+    --bottom-bar-shadow: rgba(51, 51, 217, 0.53);
+}
+
+.app-shell {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+    font-family: 'Gaegu', 'Atma', cursive;
+}
+
+/* กรอบ iPad ด้านนอก */
+.ipad-frame {
+    position: relative;
+    width: 1024px;
+    height: 768px;
+    background: #333333;
+    border-radius: 40px;
+    padding: 20px 80px 20px 80px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    box-sizing: border-box;
+    /* สำคัญ: รวม padding ในความกว้าง */
+}
+
+/* หน้าจอสีขาวด้านใน */
+.ipad-screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===========================
+   ส่วนหัว My Pokédex
+   =========================== */
+.pokedex-header {
+    text-align: center;
+    padding: 24px 32px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    z-index: 5;
+    /* ให้ลอยเหนือ card เวลาเลื่อน */
+    background: #fff;
+
+    h1 {
+        margin: 0;
+        font-family: 'Atma', cursive;
+        font-weight: 700;
+        font-size: 32px;
+    }
+}
+
+/* เนื้อหาในจอ (Container หลัก) */
+.pokedex-main {
+    flex: 1;
+    background: #ffffff;
+    overflow: hidden;
+    /* ซ่อน scrollbar ของ container นี้ */
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===========================
+   [ส่วนที่เพิ่มใหม่] ตารางแสดงการ์ด 2 คอลัมน์
+   =========================== */
+.card-grid {
+    flex: 1;
+    overflow-y: auto;
+    /* ให้เลื่อนลงได้เฉพาะตรงนี้ */
+    padding: 20px 20px 100px 20px;
+    /* เว้นล่างเยอะหน่อยหนีแถบม่วง */
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /*  แบ่งเป็น 2 คอลัมน์ เท่าๆ กัน */
+    gap: 20px;
+    /* ระยะห่างระหว่างการ์ด */
+    align-content: start;
+}
+
+/* สไตล์การ์ดในหน้า My Pokedex */
+.poke-card {
+    position: relative;
+    background: #f3f4f7;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.poke-card-inner {
+    display: flex;
+    gap: 15px;
+}
+
+.poke-card-image img {
+    width: 120px;
+    height: auto;
+}
+
+.poke-card-info {
+    flex: 1;
+
+    h2 {
+        font-family: 'Atma', cursive;
+        margin: 0 0 5px 0;
+        font-size: 24px;
+        line-height: 1;
+    }
+
+    .hp {
+        font-weight: bold;
+        margin-bottom: 5px;
+        font-size: 16px;
+    }
+
+    .types {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 8px;
+    }
+
+    .stat-row {
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+}
+
+/* ปุ่ม Remove มุมขวาบน */
+.btn-remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-family: 'Atma', cursive;
+    color: #1a70f3;
+    /* สีแดง */
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none;
+    /* ซ่อนไว้ก่อน */
+}
+
+/* โชว์ปุ่มลบเมื่อเอาเมาส์ชี้การ์ด */
+.poke-card:hover .btn-remove {
+    display: block;
+}
+
+/* Empty State */
+.empty-hint {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 20px;
+    color: #999;
+}
+
+
+/* ===========================
+   Elements อื่นๆ (ปุ่มข้าง, แถบล่าง, Modal)
+   =========================== */
+
+/* ปุ่มข้างเครื่อง */
+.ipad-side-button {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 80px;
+    border-radius: 999px;
+    background: #666666;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5), inset 0 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+/* โลโก้ Botnoi */
+.botnoi-badge {
+    position: absolute;
+    left: 1px;
+    top: 47%;
+    transform: translateY(-50%) rotate(-90deg);
+    width: 64px;
+    border-radius: 24px;
+    display: flex;
+    padding: 10px;
+}
+
+.botnoi-badge img {
+    width: 100%;
+    height: auto;
+}
+
+/* Bottom bar */
+.bottom-dock {
+    position: absolute;
+    left: 80px;
+    right: 80px;
+    bottom: 40px;
+    height: 90px;
+    background: var(--bottom-bar-bg);
+    border-radius: 30px 30px 40px 40px;
+    box-shadow: 0 -12px 24px var(--bottom-bar-shadow);
+    display: flex;
+    justify-content: center;
+}
+
+.fab-add {
+    position: relative;
+    top: -30px;
+    z-index: 10;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: none;
+    background: #5656ec;
+    color: #ffffff;
+    font-size: 40px;
+    font-family: 'Atma', cursive;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* แถบน้ำเงินก้นจอ */
+.ipad-screen::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100px;
+    background: #5656ec;
+    z-index: 1;
+}
+
+/* ===========================
+   Popup / Modal CSS
+   =========================== */
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    animation: fade-bg 0.25s ease-out;
+}
+
+.modal-content {
+    width: 760px;
+    max-height: 520px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+    padding: 14px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    animation: popup-bounce 0.35s ease-out;
+}
+
+.modal-search-bar {
+    position: relative;
+    border-radius: 4px;
+    border: 1px solid #dddddd;
+    background: #fdfdfd;
+    padding: 3px 32px 3px 6px;
+    margin-bottom: 10px;
+}
+
+.modal-search-bar input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 20px;
+    font-family: 'Gaegu', 'Atma', cursive;
+}
+
+.search-icon-btn {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.search-icon-btn img {
+    width: 16px;
+    height: 16px;
+}
+
+.modal-card-list {
+    flex: 1;
+    margin-top: 6px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.modal-card {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    padding: 10px 16px 10px 10px;
+    border-radius: 6px;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fafafa;
+}
+
+.modal-card-add {
+    position: absolute;
+    background: transparent;
+    top: 10px;
+    right: 16px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: none;
+    color: #1a70f3;
+    font-family: 'Atma', cursive;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(-3px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.modal-card:hover .modal-card-add {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.modal-card-img img {
+    width: 130px;
+    height: auto;
+    display: block;
+}
+
+.modal-card-info h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+}
+
+.modal-card-info p {
+    margin: 0;
+    font-size: 13px;
+}
+
+.error-text {
+    color: #ff4d4f;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.loading-text {
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+@keyframes fade-bg {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes popup-bounce {
+    0% {
+        transform: scale(0.6) translateY(40px);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.05) translateY(-8px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Stat bars in popup */
+.modal-stat-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    width: 40px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.stat-bar {
+    flex: 1;
+    height: 14px;
+    width: 300px;
+    border-radius: 999px;
+    background: #d7d7d7;
+    overflow: hidden;
+}
+
+.stat-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: #1a70f3;
+}
+
+.modal-happiness-row {
+    margin-top: 6px;
+    display: flex;
+    gap: 4px;
+}
+
+.happy-face {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
