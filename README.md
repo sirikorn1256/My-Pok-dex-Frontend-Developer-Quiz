@@ -28,25 +28,25 @@
 
 ## วิธีติดตั้งและรันโปรเจ็กต์
 
-1) ติดตั้ง dependencies
+-1) ติดตั้ง dependencies
 bash
 npm install
 
-2) รัน Backend (port 3030)
+-2) รัน Backend (port 3030)
 node src/server/server.js
 API ที่ใช้: http://localhost:3030/api/cards
 
-3) รัน Frontend (Angular)
+-3) รัน Frontend (Angular)
 npm start เปิดเว็บที่: http://localhost:4200
 
 ---
 
 ฟีเจอร์ของระบบ
-1.ค้นหา Pokémon ผ่าน Modal
-2.เพิ่มการ์ดลง Pokédex (ไม่ซ้ำกัน)
-3.แสดงค่าสถานะ HP / STR / WEAK พร้อมแถบ bar
-4.คำนวณ Happiness ตามสูตรของโจทย์
-5.UI จำลองหน้าตา iPad พร้อมแถบด้านล่าง
+- ค้นหา Pokémon ผ่าน Modal
+- เพิ่มการ์ดลง Pokédex (ไม่ซ้ำกัน)
+- แสดงค่าสถานะ HP / STR / WEAK พร้อมแถบ bar
+- คำนวณ Happiness ตามสูตรของโจทย์
+- UI จำลองหน้าตา iPad พร้อมแถบด้านล่าง
 
 ---
 
@@ -59,11 +59,11 @@ npm start เปิดเว็บที่: http://localhost:4200
 ---
 
 สิ่งที่ได้เรียนรู้
-•	การจัดการ state และ data flow ใน Angular
-•	การใช้งาน HttpClient เรียก REST API
-•	การจัดแยก frontend และ backend mock
-•	การคำนวณค่าต่าง ๆ ตาม business logic
-•	การจัด UI ให้ตรงตามโจทย์และ responsive
+- การจัดการ state และ data flow ใน Angular
+- การใช้งาน HttpClient เรียก REST API
+- การจัดแยก frontend และ backend mock
+- การคำนวณค่าต่าง ๆ ตาม business logic
+- การจัด UI ให้ตรงตามโจทย์และ responsive
 
 ---
 ปัญหาที่พบระหว่างทำโปรเจกต์ และแนวทางแก้ไข
